@@ -58,7 +58,6 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { hero, layout } = page
-  const contentWidth = (page as any).contentWidth as string | undefined
 
   return (
     <article className="pt-8 pb-24 md:pt-12">
@@ -66,9 +65,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
       <RenderHero {...hero} />
-      <div className={contentWidth === 'narrow' ? 'container max-w-prose' : ''}>
-        <RenderBlocks blocks={layout} />
-      </div>
+      <RenderBlocks blocks={layout} />
     </article>
   )
 }
