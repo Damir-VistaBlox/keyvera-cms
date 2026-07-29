@@ -6,12 +6,12 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 
 const providers = [
-  { name: 'OpenAI', blurb: "Access OpenAI's model family through the KEYVERA gateway." },
-  { name: 'Anthropic', blurb: "Access Anthropic's model family through the KEYVERA gateway." },
-  { name: 'Google', blurb: "Access Google's model family through the KEYVERA gateway." },
-  { name: 'Mistral', blurb: "Access Mistral's model family through the KEYVERA gateway." },
-  { name: 'Meta', blurb: "Access Meta's model family through the KEYVERA gateway." },
-  { name: 'DeepSeek', blurb: "Access DeepSeek's model family through the KEYVERA gateway." },
+  { name: 'OpenAI', icon: '/icons/openai.svg', blurb: "Access OpenAI's model family through the KEYVERA gateway." },
+  { name: 'Anthropic', icon: '/icons/claude-color.svg', blurb: "Access Anthropic's model family through the KEYVERA gateway." },
+  { name: 'Google', icon: '/icons/google-color.svg', blurb: "Access Google's model family through the KEYVERA gateway." },
+  { name: 'Mistral', icon: '/icons/mistral-color.svg', blurb: "Access Mistral's model family through the KEYVERA gateway." },
+  { name: 'Meta', icon: '/icons/meta-color.svg', blurb: "Access Meta's model family through the KEYVERA gateway." },
+  { name: 'DeepSeek', icon: '/icons/deepseek-color.svg', blurb: "Access DeepSeek's model family through the KEYVERA gateway." },
 ]
 
 const features = [
@@ -255,7 +255,15 @@ export function KeyveraHome() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {providers.map((p) => (
               <Card key={p.name}>
-                <h3 className="text-base font-semibold text-foreground">{p.name}</h3>
+                <div className="flex items-center gap-3 mb-2">
+                  <img
+                    src={p.icon}
+                    alt=""
+                    className="h-6 w-6 object-contain shrink-0"
+                    aria-hidden="true"
+                  />
+                  <h3 className="text-base font-semibold text-foreground">{p.name}</h3>
+                </div>
                 <p className="mt-2 text-sm text-[var(--text-body)]">{p.blurb}</p>
                 <Link
                   href="https://app.keyvera.cloud"
