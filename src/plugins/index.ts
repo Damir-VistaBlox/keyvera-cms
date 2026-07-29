@@ -25,18 +25,18 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
-  /* ── Vercel Blob — all uploaded images stored outside serverless /tmp ── */
-  vercelBlobStorage({
-    collections: {
-      media: true,
-    },
-    token: process.env.BLOB_READ_WRITE_TOKEN || '',
-    /**
-     * Upload files directly to Vercel Blob (client-side) instead of
-     * through Payload's server.  Required for files > 4.5 MB on Vercel.
-     */
-    clientUploads: true,
-  }),
+  /* ── Vercel Blob — conditional: only active when BLOB_READ_WRITE_TOKEN is set ── */
+  ...(process.env.BLOB_READ_WRITE_TOKEN
+    ? [
+        vercelBlobStorage({
+          collections: {
+            media: true,
+          },
+          token: process.env.BLOB_READ_WRITE_TOKEN,
+          clientUploads: true,
+        }),
+      ]
+    : []),
 
   redirectsPlugin({
     collections: ['pages', 'posts'],
