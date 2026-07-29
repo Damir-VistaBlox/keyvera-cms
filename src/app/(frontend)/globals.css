@@ -114,10 +114,19 @@
 /* =================================================================
    KEYVERA Design Tokens → ShadCN / Tailwind
    Source of truth: Docs/Branding/DESIGN.md + keyvera.cloud live CSS
+
+   Dark  = brand default — keyvera.cloud `html[data-theme="dark"]`
+   Light = Sub2API-inspired — keyvera.cloud `html[data-theme="light"]`
    ================================================================= */
 
+/* ── BRAND RAW (constant across themes) ── */
 :root {
-  /* Brand raw */
+  --gradient-brand-dark: linear-gradient(135deg, #0090fd 0%, #3d47fa 50%, #6e0cf8 100%);
+  --gradient-cta: linear-gradient(135deg, #0068d0 0%, #0055b8 100%);
+  --gradient-surface-dark: linear-gradient(180deg, #000848 0%, #000030 100%);
+  --gradient-node: radial-gradient(circle, #0068d0 0%, #6000f0 100%);
+
+  /* Brand raw — dark mode (default) */
   --brand-navy: #000848;
   --brand-navy-dark: #000030;
   --brand-navy-light: #1e3a8a;
@@ -126,59 +135,16 @@
   --brand-purple: #6000f0;
   --brand-purple-bright: #6e0cf8;
 
-  --gradient-brand: linear-gradient(135deg, #0090fd 0%, #3d47fa 50%, #6e0cf8 100%);
-  --gradient-cta: linear-gradient(135deg, #0068d0 0%, #0055b8 100%);
-  --gradient-surface: linear-gradient(180deg, #000848 0%, #000030 100%);
-  --gradient-node: radial-gradient(circle, #0068d0 0%, #6000f0 100%);
-
-  /* Light theme (default for marketing site chrome; heroes can force dark) */
-  --background: #fefefe;
-  --foreground: #000848;
-  --card: #ffffff;
-  --card-foreground: #000848;
-  --popover: #ffffff;
-  --popover-foreground: #000848;
-  --primary: #0068d0;
-  --primary-foreground: #fefefe;
-  --secondary: #f8f9fc;
-  --secondary-foreground: #000848;
-  --muted: #f8f9fc;
-  --muted-foreground: #94a3b8;
-  --accent: #f8f9fc;
-  --accent-foreground: #000848;
-  --destructive: #ef4444;
-  --destructive-foreground: #fefefe;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #0068d0;
-  --chart-1: #0068d0;
-  --chart-2: #6000f0;
-  --chart-3: #10b981;
-  --chart-4: #f59e0b;
-  --chart-5: #94a3b8;
-  --radius: 0.5rem; /* 8px — DESIGN.md md radius default */
-  --sidebar: #f8f9fc;
-  --sidebar-foreground: #000848;
-  --sidebar-primary: #0068d0;
-  --sidebar-primary-foreground: #fefefe;
-  --sidebar-accent: #e2e8f0;
-  --sidebar-accent-foreground: #000848;
-  --sidebar-border: #e2e8f0;
-  --sidebar-ring: #0068d0;
+  --radius: 0.5rem; /* 8px */
   --success: #10b981;
   --warning: #f59e0b;
   --error: #ef4444;
-
-  /* Keyvera extras */
-  --navy: #000848;
-  --navy-dark: #000030;
-  --surface-raised: #ffffff;
-  --surface-code: #f8f9fc;
-  --text-body: #334155;
-  --glow-blue: 0 0 16px rgba(0, 104, 208, 0.25);
 }
 
-[data-theme='dark'] {
+/* ── DARK THEME (default — Payload `defaultTheme = 'dark'`) ── */
+html[data-theme='dark'],
+:root {
+  /* ShadCN semantic */
   --background: #000030;
   --foreground: #f8f9fc;
   --card: #0a0f3d;
@@ -211,10 +177,8 @@
   --sidebar-accent-foreground: #f8f9fc;
   --sidebar-border: #1e2a5c;
   --sidebar-ring: #3d8fe8;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --error: #ef4444;
 
+  /* Keyvera extras — dark */
   --navy: #f8f9fc;
   --navy-dark: #000030;
   --surface-raised: #0a0f3d;
@@ -224,6 +188,53 @@
   --gradient-surface: linear-gradient(180deg, #000030 0%, #000020 100%);
 }
 
+/* ── LIGHT THEME (exact match to keyvera.cloud Sub2API palette) ── */
+html[data-theme='light'] {
+  /* ShadCN semantic */
+  --background: #ffffff;
+  --foreground: #000848;
+  --card: #f1f5f9;
+  --card-foreground: #000848;
+  --popover: #ffffff;
+  --popover-foreground: #000848;
+  --primary: #00aeef; /* Sub2API primary — live site accent-blue-light */
+  --primary-foreground: #ffffff;
+  --secondary: #f8f9fc;
+  --secondary-foreground: #000848;
+  --muted: #f8f9fc;
+  --muted-foreground: #94a3b8;
+  --accent: #f1f5f9;
+  --accent-foreground: #000848;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #00aeef;
+  --chart-1: #00aeef;
+  --chart-2: #8b5cf6;
+  --chart-3: #10b981;
+  --chart-4: #f59e0b;
+  --chart-5: #94a3b8;
+  --sidebar: #f8f9fc;
+  --sidebar-foreground: #000848;
+  --sidebar-primary: #00aeef;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #000848;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #00aeef;
+
+  /* Keyvera extras — light */
+  --navy: #000848;
+  --navy-dark: #000030;
+  --surface-raised: #ffffff;
+  --surface-code: #f8f9fc;
+  --text-body: #334155;
+  --glow-blue: 0 0 16px rgba(0, 174, 239, 0.25);
+  --gradient-surface: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+}
+
+/* ── TAILWIND v4 @theme inline (connects CSS vars to utility classes) ── */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
