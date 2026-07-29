@@ -8,7 +8,8 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { generateMeta } from '@/utilities/generateMeta'
-import { ModelPricingTable } from '@/components/pricing/ModelPricingTable'
+import { PricingTableSection } from '@/components/pricing/PricingTableSection'
+import HowPricingWorks from '@/components/pricing/HowPricingWorks'
 import PageClient from '../[slug]/page.client'
 
 export const dynamic = 'force-dynamic'
@@ -41,14 +42,17 @@ export default async function PricingPage() {
       {draft && <LivePreviewListener />}
 
       {page ? (
-        <article className="pb-24">
+        <article className="pb-12">
           <RenderHero {...page.hero} />
           <RenderBlocks blocks={page.layout} />
         </article>
       ) : null}
 
+      {/* How pricing works */}
+      <HowPricingWorks />
+
       {/* Live per-model token pricing — ISR, revalidated hourly */}
-      <ModelPricingTable />
+      <PricingTableSection />
     </>
   )
 }
