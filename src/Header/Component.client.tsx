@@ -9,6 +9,8 @@ import type { Header as HeaderType } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
+import { MobileNav } from './MobileNav'
+import { ActiveNavClient } from './ActiveNavClient'
 import { Button } from '@/components/ui/button'
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 
@@ -23,38 +25,67 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   useEffect(() => {
     setHeaderTheme(null)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
+  }, [pathname, setHeaderTheme])
 
   useEffect(() => {
     if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [headerTheme])
+  }, [headerTheme, theme])
+
+  const isRoot = pathname === '/'
 
   return (
     <header
       className="site-header"
+      itemScope
+      itemType="https://schema.org/WPHeader"
       {...(theme ? { 'data-theme': theme } : {})}
     >
       <div className="container header-inner">
-        <Link href="/" className="shrink-0" aria-label="KEYVERA home">
+        {/* LOGO — schema.org Organization */}
+        <Link
+          href="/"
+          className="shrink-0"
+          aria-label="KEYVERA home"
+          itemScope
+          itemType="https://schema.org/Organization"
+        >
+          <meta itemProp="name" content="KEYVERA" />
+          <meta itemProp="url" content="https://keyvera.cloud" />
           <Logo loading="eager" priority="high" />
         </Link>
 
+        {/* SERVER-NAV — static HTML, crawlable without JS */}
         <HeaderNav data={data} />
 
+        {/* ACTIONS (client-only — theme toggle, CTAs) */}
         <div className="flex items-center gap-3 shrink-0">
           <ThemeSelector />
           <div className="hidden md:flex items-center gap-3">
             <Button asChild variant="ghost" size="sm">
-              <Link href="https://app.keyvera.cloud/login">Sign In</Link>
+              <Link
+                href="https://app.keyvera.cloud/login"
+                rel="noopener noreferrer"
+              >
+                Sign In
+              </Link>
             </Button>
             <Button asChild size="sm">
-              <Link href="https://app.keyvera.cloud/register">Get API Key</Link>
+              <Link
+                href="https://app.keyvera.cloud/register"
+                rel="noopener noreferrer"
+              >
+                Get API Key
+              </Link>
             </Button>
           </div>
+
+          {/* MOBILE hamburger */}
+          <MobileNav data={data} />
         </div>
       </div>
+
+      {/* aria-current hydration — runs after mount, no visual change */}
+      <ActiveNavClient />
     </header>
   )
 }

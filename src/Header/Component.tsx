@@ -1,13 +1,18 @@
-import { HeaderClient } from './Component.client'
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import React from 'react'
 
+import { HeaderClient } from './Component.client'
+import { Breadcrumbs } from '@/components/Breadcrumbs'
+import type { BreadcrumbCrumb } from '@/components/Breadcrumbs'
+
 export async function Header() {
+  let headerData = null
+
   try {
-    const headerData = await getCachedGlobal('header', 1)()
-    return <HeaderClient data={headerData} />
+    headerData = await getCachedGlobal('header', 1)()
   } catch {
-    // DB not yet initialized — render header with empty data
-    return <HeaderClient data={null as any} />
+    // DB not initialized — render with empty data
   }
+
+  return <HeaderClient data={headerData as any} />
 }
