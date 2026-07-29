@@ -1,20 +1,21 @@
 'use client'
+
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
-import type { Header } from '@/payload-types'
+import type { Header as HeaderType } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
+import { Button } from '@/components/ui/button'
 
 interface HeaderClientProps {
-  data: Header
+  data: HeaderType | null
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
-  /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
@@ -30,12 +31,25 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }, [headerTheme])
 
   return (
-    <header className="container relative z-20   " {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-8 flex justify-between">
-        <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+    <header
+      className="site-header"
+      {...(theme ? { 'data-theme': theme } : {})}
+    >
+      <div className="container header-inner">
+        <Link href="/" className="shrink-0" aria-label="KEYVERA home">
+          <Logo loading="eager" priority="high" />
         </Link>
+
         <HeaderNav data={data} />
+
+        <div className="hidden md:flex items-center gap-3 shrink-0">
+          <Button asChild variant="ghost" size="sm">
+            <Link href="https://app.keyvera.cloud/login">Sign In</Link>
+          </Button>
+          <Button asChild size="sm">
+            <Link href="https://app.keyvera.cloud/register">Get API Key</Link>
+          </Button>
+        </div>
       </div>
     </header>
   )

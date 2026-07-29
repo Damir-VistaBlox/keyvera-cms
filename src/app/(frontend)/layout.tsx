@@ -45,9 +45,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
+  title: {
+    default: 'KEYVERA — One API for Leading AI Models',
+    template: '%s | KEYVERA',
+  },
+  description:
+    'Access leading AI models through one unified API. Simplify integrations, centralize model usage, and build resilient multi-model applications with KEYVERA.',
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
     creator: '@keyvera',
+  },
+  icons: {
+    icon: [{ url: '/keyvera-mark.svg', type: 'image/svg+xml' }, { url: '/favicon.ico' }],
   },
 }

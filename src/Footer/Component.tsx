@@ -13,34 +13,47 @@ export async function Footer() {
     const footerData = await getCachedGlobal('footer', 1)()
     navItems = footerData?.navItems || []
   } catch {
-    // DB not yet initialized — render empty footer
-    return (
-      <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
-        <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
-          <Link className="flex items-center" href="/">
-            <Logo />
-          </Link>
-          <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
-            <ThemeSelector />
-          </div>
-        </div>
-      </footer>
-    )
+    // fall through with empty nav
   }
 
   return (
-    <footer className="mt-auto border-t border-border bg-black dark:bg-card text-white">
-      <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
-        <Link className="flex items-center" href="/">
-          <Logo />
-        </Link>
-        <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
+    <footer className="site-footer">
+      <div className="container py-10 flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+        <div className="flex flex-col gap-3 max-w-xs">
+          <Link href="/" className="inline-flex w-fit" aria-label="KEYVERA home">
+            <Logo light />
+          </Link>
+          <p className="text-sm text-white/60 leading-relaxed">
+            One API for leading AI models. Developer-first gateway with unified access and
+            predictable pricing.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-10">
+          {navItems.length > 0 && (
+            <nav className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-5" aria-label="Footer">
+              {navItems.map(({ link }, i) => (
+                <CMSLink
+                  key={i}
+                  {...link}
+                  className="text-sm text-white/75 hover:text-white transition-colors no-underline"
+                />
+              ))}
+            </nav>
+          )}
           <ThemeSelector />
-          <nav className="flex flex-col md:flex-row gap-4">
-            {navItems.map(({ link }, i) => {
-              return <CMSLink className="text-white" key={i} {...link} />
-            })}
-          </nav>
+        </div>
+      </div>
+
+      <div className="container border-t border-white/10 py-5 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between text-xs text-white/45">
+        <span>© {new Date().getFullYear()} KEYVERA. All rights reserved.</span>
+        <div className="flex gap-4">
+          <Link href="/privacy" className="hover:text-white/80 no-underline">
+            Privacy
+          </Link>
+          <Link href="/terms" className="hover:text-white/80 no-underline">
+            Terms
+          </Link>
         </div>
       </div>
     </footer>
