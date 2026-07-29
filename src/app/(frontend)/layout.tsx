@@ -15,16 +15,75 @@ import { draftMode } from 'next/headers'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import type { Viewport } from 'next'
+
+/* =================================================================
+   JSON-LD Structured Data — Google's preferred format
+   ================================================================= */
+function StructuredData() {
+  const siteUrl = getServerSideURL()
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': `${siteUrl}/#organization`,
+        name: 'KEYVERA',
+        url: siteUrl,
+        logo: `${siteUrl}/keyvera-mark.svg`,
+        description:
+          'Access leading AI models through one unified API. Simplify integrations, centralize model usage, and build resilient multi-model applications.',
+        sameAs: ['https://github.com/Damir-VistaBlox', 'https://linkedin.com/company/keyvera'],
+        contactPoint: {
+          '@type': 'ContactPoint',
+          contactType: 'sales',
+          email: 'sales@keyvera.cloud',
+        },
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${siteUrl}/#website`,
+        name: 'KEYVERA',
+        url: siteUrl,
+        publisher: { '@id': `${siteUrl}/#organization` },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: `${siteUrl}/search?q={search_term_string}`,
+          },
+          'query-input': 'required name=search_term_string',
+        },
+      },
+    ],
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  )
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
+    <html
+      className={cn(GeistSans.variable, GeistMono.variable)}
+      lang="en"
+      suppressHydrationWarning
+    >
       <head>
+        <meta charSet="utf-8" />
+        <link rel="preconnect" href="https://app.keyvera.cloud" />
+        <link rel="preconnect" href="https://api.keyvera.cloud" />
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        <StructuredData />
       </head>
       <body>
         <Providers>
@@ -33,7 +92,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               preview: isEnabled,
             }}
           />
-
           <Header />
           {children}
           <Footer />
@@ -58,5 +116,18 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [{ url: '/keyvera-mark.svg', type: 'image/svg+xml' }, { url: '/favicon.ico' }],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: '/',
+  },
+  applicationName: 'KEYVERA',
+  appleWebApp: {
+    title: 'KEYVERA',
+    capable: true,
+    statusBarStyle: 'black-translucent' as const,
   },
 }
