@@ -3,6 +3,9 @@ import React from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 import { HeroCodeBlock } from './HeroCodeBlock'
+import { ConvergenceNode } from './ConvergenceNode'
+import FeaturedOn from './FeaturedOn'
+import HomeFAQ from './HomeFAQ'
 
 /* =================================================================
    Data — static marketing content, server-rendered for SEO
@@ -39,7 +42,6 @@ const features = [
   { title: 'Reliable & Fast', body: 'Provider fallback and model failover when traffic or upstreams shift.', full: true },
 ]
 
-/* ── Mini pricing preview (teaser for /pricing) ── */
 const pricingPreview = [
   { name: 'Starter', price: 'Pay as you go', desc: 'Top up your balance, pay per token.', cta: 'Get Started →', url: 'https://app.keyvera.cloud/register' },
   { name: 'Pro', price: '$49/mo', desc: 'Includes $50 monthly credit. 2× top-up.', cta: 'Start Pro →', url: 'https://app.keyvera.cloud/register', highlight: true },
@@ -47,7 +49,7 @@ const pricingPreview = [
 ]
 
 /* =================================================================
-   Reusable sub-components
+   Sub-components
    ================================================================= */
 function SectionHeading({ id, title, subtitle }: { id?: string; title: string; subtitle?: string }) {
   return (
@@ -72,12 +74,15 @@ function Card({ children, className }: { children: React.ReactNode; className?: 
 export default async function KeyveraHome() {
   return (
     <div className="flex flex-col">
-      {/* ═══════════════════ HERO ═══════════════════ */}
+      {/* ═══════ HERO with Convergence Node ═══════ */}
       <section id="top" aria-label="Introduction" className="relative overflow-hidden border-b border-border" data-theme="dark">
         <div className="pointer-events-none absolute inset-0 opacity-40" aria-hidden="true"
           style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,104,208,0.35), transparent), linear-gradient(180deg, #000030 0%, #000020 100%)' }} />
         <div className="pointer-events-none absolute inset-0 opacity-[0.07]" aria-hidden="true"
           style={{ backgroundImage: 'linear-gradient(rgba(0,144,253,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,144,253,0.5) 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
+
+        {/* Convergence Node motif */}
+        <ConvergenceNode />
 
         <div className="container relative z-10 py-20 md:py-28 lg:py-32">
           <div className="mx-auto max-w-3xl text-center">
@@ -98,7 +103,6 @@ export default async function KeyveraHome() {
               </Button>
             </div>
 
-            {/* FIX 2: Hero stats bar */}
             <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {heroStats.map((s) => (
                 <div key={s.label} className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-center backdrop-blur-sm">
@@ -108,13 +112,15 @@ export default async function KeyveraHome() {
               ))}
             </div>
 
-            {/* FIX 1: Only code block is a client island */}
             <HeroCodeBlock />
           </div>
         </div>
       </section>
 
-      {/* ═══════════════════ HOW IT WORKS ═══════════════════ */}
+      {/* ═══════ FEATURED ON ═══════ */}
+      <FeaturedOn />
+
+      {/* ═══════ HOW IT WORKS ═══════ */}
       <section id="how-it-works" className="section-pad border-b border-border py-16 md:py-24" aria-labelledby="how-heading">
         <div className="container">
           <SectionHeading id="how-heading" title="One integration. Every model."
@@ -133,7 +139,7 @@ export default async function KeyveraHome() {
         </div>
       </section>
 
-      {/* ═══════════════════ MODELS ═══════════════════ */}
+      {/* ═══════ MODELS ═══════ */}
       <section id="models" className="section-pad border-b border-border bg-secondary/40 py-16 md:py-24" aria-labelledby="models-heading">
         <div className="container">
           <SectionHeading id="models-heading" title="Complete model access. One consistent interface."
@@ -146,7 +152,6 @@ export default async function KeyveraHome() {
                   <h3 className="text-base font-semibold text-foreground">{p.name}</h3>
                 </div>
                 <p className="mt-2 text-sm text-[var(--text-body)]">{p.blurb}</p>
-                {/* FIX 5: Provider cards link to /pricing */}
                 <Link href="/pricing" className="mt-4 inline-flex text-sm font-medium text-primary no-underline hover:underline">
                   View pricing →
                 </Link>
@@ -156,7 +161,7 @@ export default async function KeyveraHome() {
         </div>
       </section>
 
-      {/* ═══════════════════ FEATURES (Trust merged in) ═══════════════════ */}
+      {/* ═══════ FEATURES ═══════ */}
       <section id="features" className="section-pad border-b border-border py-16 md:py-24" aria-labelledby="features-heading">
         <div className="container">
           <SectionHeading id="features-heading" title="One account. Complete control."
@@ -173,12 +178,11 @@ export default async function KeyveraHome() {
         </div>
       </section>
 
-      {/* ═══════════════════ PRICING PREVIEW ═══════════════════ */}
+      {/* ═══════ PRICING PREVIEW ═══════ */}
       <section id="pricing" className="section-pad border-b border-border bg-secondary/30 py-16 md:py-24" aria-labelledby="pricing-heading">
         <div className="container">
           <SectionHeading id="pricing-heading" title="Flexible access for every stage of growth."
             subtitle="Start with the plan that fits your current workload, then expand model access and operational controls as your application grows." />
-          {/* FIX 4: Mini pricing preview */}
           <div className="grid gap-6 md:grid-cols-3 mb-10">
             {pricingPreview.map((tier) => (
               <div key={tier.name}
@@ -206,6 +210,9 @@ export default async function KeyveraHome() {
           </div>
         </div>
       </section>
+
+      {/* ═══════ FAQ ═══════ */}
+      <HomeFAQ />
     </div>
   )
 }
