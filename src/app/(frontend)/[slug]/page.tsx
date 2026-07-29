@@ -11,6 +11,8 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { KeyveraHome } from '@/components/Home/KeyveraHome'
+import { homeStatic } from '@/endpoints/seed/home-static'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,9 +27,31 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { slug = 'home' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
   const url = '/' + decodedSlug
-  let page: RequiredDataFromCollectionSlug<'pages'> | null
 
-  page = await queryPageBySlug({ slug: decodedSlug })
+  // Root `/` is handled by page.tsx; if someone hits /home, show Keyvera home
+  // unless CMS has a full layout.
+  let page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({
+    slug: decodedSlug,
+  })
+
+  if (decodedSlug === 'home') {
+    const hasCmsLayout =
+      page &&
+      Array.isArray(page.layout) &&
+      page.layout.length > 0 &&
+      page.hero?.type &&
+      page.hero.type !== 'none'
+
+    if (!hasCmsLayout) {
+      return (
+        <>
+          <PageClient />
+          {draft && <LivePreviewListener />}
+          <KeyveraHome />
+        </>
+      )
+    }
+  }
 
   if (!page) {
     return <PayloadRedirects url={url} />
@@ -36,7 +60,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { hero, layout } = page
 
   return (
-    <article className="pt-16 pb-24">
+    <article className="pt-8 pb-24 md:pt-12">
       <PageClient />
       <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
@@ -49,20 +73,24 @@ export default async function Page({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = 'home' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const page = await queryPageBySlug({ slug: decodedSlug })
+  const page = (await queryPageBySlug({ slug: decodedSlug })) || (decodedSlug === 'home' ? homeStatic : null)
   return generateMeta({ doc: page })
 }
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
-  const payload = await getPayload({ config: configPromise })
-  const result = await payload.find({
-    collection: 'pages',
-    draft,
-    limit: 1,
-    pagination: false,
-    overrideAccess: draft,
-    where: { slug: { equals: slug } },
-  })
-  return result.docs?.[0] || null
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'pages',
+      draft,
+      limit: 1,
+      pagination: false,
+      overrideAccess: draft,
+      where: { slug: { equals: slug } },
+    })
+    return result.docs?.[0] || null
+  } catch {
+    return null
+  }
 })
