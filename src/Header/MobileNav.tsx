@@ -4,14 +4,19 @@ import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
-import type { Header as HeaderType } from '@/payload-types'
-import { resolveNavItem } from './Nav'
+import type { NavigationMenuItem } from '@/payload-types'
 
-export function MobileNav({ data }: { data: HeaderType | null }) {
+function isExternal(href: string): boolean {
+  return /^https?:\/\//.test(href)
+}
+
+interface Props {
+  items: NavigationMenuItem[]
+}
+
+export function MobileNav({ items }: Props) {
   const [open, setOpen] = useState(false)
-  const items = data?.navItems || []
 
-  // Close on Escape
   useEffect(() => {
     if (!open) return
     const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
@@ -19,7 +24,6 @@ export function MobileNav({ data }: { data: HeaderType | null }) {
     return () => document.removeEventListener('keydown', handler)
   }, [open])
 
-  // Prevent body scroll when open
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -29,7 +33,6 @@ export function MobileNav({ data }: { data: HeaderType | null }) {
 
   return (
     <>
-      {/* Hamburger button */}
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -38,35 +41,16 @@ export function MobileNav({ data }: { data: HeaderType | null }) {
         className="md:hidden inline-flex size-10 items-center justify-center rounded-md text-foreground/80 hover:text-foreground hover:bg-accent transition-colors"
       >
         <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-          {open ? (
-            <>
-              <path d="M18 6L6 18" />
-              <path d="M6 6L18 18" />
-            </>
-          ) : (
-            <>
-              <path d="M4 6h16" />
-              <path d="M4 12h16" />
-              <path d="M4 18h16" />
-            </>
-          )}
+          {open ? (<><path d="M18 6L6 18" /><path d="M6 6L18 18" /></>) : (<><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h16" /></>)}
         </svg>
       </button>
 
-      {/* Overlay */}
       {open && (
-        <div
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
-          onClick={close}
-          aria-hidden="true"
-        />
+        <div className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden" onClick={close} aria-hidden="true" />
       )}
 
-      {/* Slide-over drawer */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] bg-card shadow-2xl transition-transform duration-200 ease-out md:hidden ${
-          open ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed inset-y-0 left-0 z-50 w-72 max-w-[85vw] bg-card shadow-2xl transition-transform duration-200 ease-out md:hidden ${open ? 'translate-x-0' : '-translate-x-full'}`}
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
@@ -79,26 +63,22 @@ export function MobileNav({ data }: { data: HeaderType | null }) {
             aria-label="Close menu"
           >
             <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-              <path d="M18 6L6 18" />
-              <path d="M6 6L18 18" />
+              <path d="M18 6L6 18" /><path d="M6 6L18 18" />
             </svg>
           </button>
 
           <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
-            {items.map((item, i) => {
-              const resolved = resolveNavItem(item)
-              if (!resolved) return null
+            {items.map((item) => {
+              const external = isExternal(item.href || '')
               return (
                 <Link
-                  key={i}
-                  href={resolved.href}
+                  key={item.id}
+                  href={item.href || '#'}
                   className="flex items-center px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-colors no-underline"
-                  {...(resolved.external
-                    ? { target: '_blank', rel: 'noopener noreferrer' }
-                    : {})}
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                   onClick={close}
                 >
-                  {resolved.label}
+                  {item.title}
                 </Link>
               )
             })}
@@ -113,14 +93,10 @@ export function MobileNav({ data }: { data: HeaderType | null }) {
 
           <div className="mt-auto flex flex-col gap-3 pt-6 border-t border-border">
             <Button asChild variant="ghost" size="lg" className="justify-start">
-              <Link href="https://app.keyvera.cloud/login" onClick={close}>
-                Sign In
-              </Link>
+              <Link href="https://app.keyvera.cloud/login" onClick={close}>Sign In</Link>
             </Button>
             <Button asChild size="lg" className="justify-start">
-              <Link href="https://app.keyvera.cloud/register" onClick={close}>
-                Get API Key
-              </Link>
+              <Link href="https://app.keyvera.cloud/register" onClick={close}>Get API Key</Link>
             </Button>
           </div>
         </div>

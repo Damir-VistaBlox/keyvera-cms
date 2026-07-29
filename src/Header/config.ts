@@ -1,6 +1,5 @@
 import type { GlobalConfig } from 'payload'
 
-import { link } from '@/fields/link'
 import { revalidateHeader } from './hooks/revalidateHeader'
 
 export const Header: GlobalConfig = {
@@ -9,22 +8,10 @@ export const Header: GlobalConfig = {
     read: () => true,
   },
   fields: [
-    {
-      name: 'navItems',
-      type: 'array',
-      fields: [
-        link({
-          appearances: false,
-        }),
-      ],
-      maxRows: 6,
-      admin: {
-        initCollapsed: true,
-        components: {
-          RowLabel: '@/Header/RowLabel#RowLabel',
-        },
-      },
-    },
+    /* ── Navigation is managed by the @spon/payload-navigation plugin ──
+       The plugin adds a "Navigations" collection under the admin sidebar.
+       The Header Nav and MobileNav components fetch from that collection
+       instead of reading navItems from this global.                    */
   ],
   hooks: {
     afterChange: [revalidateHeader],

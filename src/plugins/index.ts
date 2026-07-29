@@ -3,6 +3,7 @@ import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
+import { navigationPlugin } from '@spon/payload-navigation'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
@@ -25,7 +26,21 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
-  /* ── Vercel Blob — conditional: only active when BLOB_READ_WRITE_TOKEN is set ── */
+  /* ── Navigation — drag-and-drop menu builder ── */
+  navigationPlugin({
+    internalCollections: ['pages'],
+    maxDepth: 2,
+    resolveInternalUrl: async ({ id, collection, payload }) => {
+      try {
+        const doc = await payload.findByID({ collection, id, depth: 0 }) as Record<string, any>
+        return doc?.slug ? `/${doc.slug}` : '#'
+      } catch {
+        return '#'
+      }
+    },
+  }),
+
+  /* ── Vercel Blob — conditional ── */
   ...(process.env.BLOB_READ_WRITE_TOKEN
     ? [
         vercelBlobStorage({

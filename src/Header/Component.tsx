@@ -1,18 +1,38 @@
-import { getCachedGlobal } from '@/utilities/getGlobals'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 import React from 'react'
 
 import { HeaderClient } from './Component.client'
-import { Breadcrumbs } from '@/components/Breadcrumbs'
-import type { BreadcrumbCrumb } from '@/components/Breadcrumbs'
+import type { NavigationMenuItem } from '@/payload-types'
+
+const GET_NAV = `
+  query GetNavigation {
+    Navigations(limit: 1, sort: "-createdAt") {
+      docs {
+        items
+      }
+    }
+  }
+`
+
+async function fetchNavItems(): Promise<NavigationMenuItem[]> {
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await payload.find({
+      collection: 'navigation' as any,
+      limit: 1,
+      depth: 3,
+      sort: '-createdAt',
+    })
+    const doc = result.docs?.[0] as Record<string, any> | undefined
+    return (doc?.items as NavigationMenuItem[]) || []
+  } catch {
+    return []
+  }
+}
 
 export async function Header() {
-  let headerData = null
+  const items = await fetchNavItems()
 
-  try {
-    headerData = await getCachedGlobal('header', 1)()
-  } catch {
-    // DB not initialized — render with empty data
-  }
-
-  return <HeaderClient data={headerData as any} />
+  return <HeaderClient navItems={items} />
 }
