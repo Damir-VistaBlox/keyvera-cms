@@ -120,6 +120,19 @@ export const Pages: CollectionConfig = {
       },
     },
     {
+      name: 'contentWidth',
+      type: 'select',
+      defaultValue: 'full',
+      options: [
+        { label: 'Full-width (default)', value: 'full' },
+        { label: 'Centered narrow (legal, docs)', value: 'narrow' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Narrow centres content in a readable column — ideal for legal pages, documentation, and long-form copy.',
+      },
+    },
+    {
       name: 'slug',
       type: 'text',
     },
