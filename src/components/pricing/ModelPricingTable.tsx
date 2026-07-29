@@ -1,7 +1,7 @@
 /* =================================================================
    ModelPricingTable — live per-model token pricing from Sub2API.
-   Features: search/filter, clean channel names, mobile cards,
-   popular model badges.
+   Client-side: search/filter, mobile cards, popular badges.
+   Data is fetched server-side by the /pricing page route.
    ================================================================= */
 'use client'
 
@@ -25,21 +25,7 @@ interface ChannelPricing {
   models: ModelPrice[]
 }
 
-/* =================================================================
-   Channel name normalization
-   ================================================================= */
-const CHANNEL_LABELS: Record<string, string> = {
-  'Cloud Lite External': 'Keyvera Lite',
-  'Cloud Plus External': 'Keyvera Plus',
-  'Cloud Pro External': 'Keyvera Pro',
-  'Cloud Max External': 'Keyvera Max',
-  'Cloud Codex Pro External': 'Keyvera Codex',
-  'Grok External': 'Grok',
-  'Zhipu External': 'Zhipu AI',
-  'Kimi External': 'Kimi',
-  'DeepSeek External': 'DeepSeek',
-}
-
+/* ── Popular models — subtle badge + row highlight ── */
 const POPULAR_MODELS = new Set([
   'claude-sonnet-5',
   'claude-haiku-4-5',
@@ -51,8 +37,9 @@ const POPULAR_MODELS = new Set([
   'grok-3',
 ])
 
+/* ── Helpers ── */
 function cleanName(raw: string): string {
-  return CHANNEL_LABELS[raw] || raw.replace(/\s*External\s*/g, '').trim()
+  return raw.replace(/\s*External\s*/g, '').trim()
 }
 
 function formatPrice(usdPer1M: number): string {
@@ -62,7 +49,7 @@ function formatPrice(usdPer1M: number): string {
 }
 
 /* =================================================================
-   Mobile model card
+   Mobile model card (≤ 768px)
    ================================================================= */
 function ModelCard({ m, hasCache }: { m: ModelPrice; hasCache: boolean }) {
   return (
