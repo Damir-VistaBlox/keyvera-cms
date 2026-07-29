@@ -11,7 +11,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { KeyveraHome } from '@/components/Home/KeyveraHome'
+import KeyveraHome from '@/components/Home/KeyveraHome'
 import { homeStatic } from '@/endpoints/seed/home-static'
 
 export const dynamic = 'force-dynamic'

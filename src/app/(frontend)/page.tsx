@@ -7,7 +7,7 @@ import React, { cache } from 'react'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { KeyveraHome } from '@/components/Home/KeyveraHome'
+import KeyveraHome from '@/components/Home/KeyveraHome'
 import { homeStatic } from '@/endpoints/seed/home-static'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './[slug]/page.client'
@@ -36,7 +36,6 @@ export default async function HomePage() {
   const { isEnabled: draft } = await draftMode()
   const page = await queryHome()
 
-  // Prefer full Keyvera marketing homepage until CMS home has real layout blocks
   const hasCmsLayout =
     page &&
     Array.isArray(page.layout) &&
