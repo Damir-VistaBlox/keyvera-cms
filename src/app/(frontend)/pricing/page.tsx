@@ -9,12 +9,13 @@ import { RenderHero } from '@/heros/RenderHero'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { generateMeta } from '@/utilities/generateMeta'
 import { ModelPricingTable } from '@/components/pricing/ModelPricingTable'
+import { SavingsCalculator } from '@/components/pricing/SavingsCalculator'
 import HowPricingWorks from '@/components/pricing/HowPricingWorks'
 import PageClient from '../[slug]/page.client'
 
 export const dynamic = 'force-dynamic'
 
-/* ── Data ── */
+/* ── Sub2API data ── */
 const SUB2API_BASE = 'https://api.keyvera.cloud'
 const ADMIN_KEY = 'admin-426b7da7096a4b464cec004d8389f922afb2c4d0309245710d30c21bff293769'
 
@@ -82,10 +83,13 @@ export default async function PricingPage() {
         </article>
       ) : null}
 
-      {/* How pricing works */}
+      {/* How pricing works — 3 steps + real-world example */}
       <HowPricingWorks />
 
-      {/* Live per-model token pricing — ISR, revalidated hourly */}
+      {/* Savings calculator */}
+      <SavingsCalculator channels={channels} />
+
+      {/* Live per-model token pricing */}
       <section className="py-12 md:py-20">
         <div className="mb-10 text-center">
           <h2 className="text-balance">Per-model token pricing</h2>
