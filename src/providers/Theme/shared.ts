@@ -3,7 +3,7 @@ import type { Theme } from './types'
 export const themeLocalStorageKey = 'keyvera-theme'
 
 /** Match live keyvera.cloud: dark is the brand-default marketing experience */
-export const defaultTheme = 'dark'
+export const defaultTheme = 'light'
 
 export const getImplicitPreference = (): Theme | null => {
   const mediaQuery = '(prefers-color-scheme: dark)'

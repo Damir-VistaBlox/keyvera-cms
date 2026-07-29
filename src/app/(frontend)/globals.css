@@ -141,9 +141,8 @@
   --error: #ef4444;
 }
 
-/* ── DARK THEME (default — Payload `defaultTheme = 'dark'`) ── */
-html[data-theme='dark'],
-:root {
+/* ── DARK THEME ── */
+html[data-theme='dark'] {
   /* ShadCN semantic */
   --background: #000030;
   --foreground: #f8f9fc;
@@ -188,8 +187,9 @@ html[data-theme='dark'],
   --gradient-surface: linear-gradient(180deg, #000030 0%, #000020 100%);
 }
 
-/* ── LIGHT THEME (exact match to keyvera.cloud Sub2API palette) ── */
-html[data-theme='light'] {
+/* ── LIGHT THEME (default + explicit match to keyvera.cloud Sub2API palette) ── */
+html[data-theme='light'],
+:root {
   /* ShadCN semantic */
   --background: #ffffff;
   --foreground: #000848;
