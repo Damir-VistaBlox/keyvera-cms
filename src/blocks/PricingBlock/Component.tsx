@@ -3,9 +3,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 
-// @ts-expect-error — PricingBlock type is auto-generated after next build
-import type { PricingBlock as PricingBlockType } from '@/payload-types'
-
 function CheckIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -21,7 +18,7 @@ function CheckIcon({ className }: { className?: string }) {
   )
 }
 
-export const PricingBlockComponent: React.FC<PricingBlockType> = ({
+export const PricingBlockComponent: React.FC<any> = ({
   heading,
   subtitle,
   tiers,
@@ -48,7 +45,7 @@ export const PricingBlockComponent: React.FC<PricingBlockType> = ({
                 : 'md:grid-cols-2 lg:grid-cols-4',
             )}
           >
-            {tiers.map((tier, i) => (
+            {tiers.map((tier: any, i: number) => (
               <div
                 key={i}
                 className={cn(
@@ -77,7 +74,7 @@ export const PricingBlockComponent: React.FC<PricingBlockType> = ({
                 {/* Features */}
                 {tier.features && tier.features.length > 0 && (
                   <ul className="mb-6 flex-1 space-y-2.5">
-                    {tier.features.map((f, j) => (
+                    {tier.features.map((f: any, j: number) => (
                       <li key={j} className="flex items-start gap-2.5 text-sm">
                         <CheckIcon
                           className={cn(
@@ -118,7 +115,7 @@ export const PricingBlockComponent: React.FC<PricingBlockType> = ({
         {/* Trust badges */}
         {trustBadges && trustBadges.length > 0 && (
           <div className="mt-16 flex flex-wrap items-center justify-center gap-8 md:gap-12">
-            {trustBadges.map((b, i) => (
+            {trustBadges.map((b: any, i: number) => (
               <div key={i} className="text-center">
                 <div className="text-3xl font-bold text-primary">{b.value}</div>
                 <div className="mt-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
