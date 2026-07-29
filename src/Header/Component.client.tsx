@@ -10,6 +10,7 @@ import type { Header as HeaderType } from '@/payload-types'
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
 import { Button } from '@/components/ui/button'
+import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 
 interface HeaderClientProps {
   data: HeaderType | null
@@ -42,13 +43,16 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
         <HeaderNav data={data} />
 
-        <div className="hidden md:flex items-center gap-3 shrink-0">
-          <Button asChild variant="ghost" size="sm">
-            <Link href="https://app.keyvera.cloud/login">Sign In</Link>
-          </Button>
-          <Button asChild size="sm">
-            <Link href="https://app.keyvera.cloud/register">Get API Key</Link>
-          </Button>
+        <div className="flex items-center gap-3 shrink-0">
+          <ThemeSelector />
+          <div className="hidden md:flex items-center gap-3">
+            <Button asChild variant="ghost" size="sm">
+              <Link href="https://app.keyvera.cloud/login">Sign In</Link>
+            </Button>
+            <Button asChild size="sm">
+              <Link href="https://app.keyvera.cloud/register">Get API Key</Link>
+            </Button>
+          </div>
         </div>
       </div>
     </header>
