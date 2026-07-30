@@ -11,12 +11,11 @@ import { UnderlineFeatureClient as UnderlineFeatureClient_e70f5e05f09f93e00b997e
 import { BoldFeatureClient as BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { ItalicFeatureClient as ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { LinkFeatureClient as LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
-import { OverviewComponent as OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { MetaTitleComponent as MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { MetaImageComponent as MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { MetaDescriptionComponent as MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
-import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 } from '@payloadcms/plugin-seo/client'
 import { SeoAnalyzerField as SeoAnalyzerField_891aad6db67bdd9b62d5e80f091d253b } from '@consilioweb/payload-seo-analyzer/client'
+import { OverviewField as OverviewField_891aad6db67bdd9b62d5e80f091d253b } from '@consilioweb/payload-seo-analyzer/client'
+import { MetaTitleField as MetaTitleField_891aad6db67bdd9b62d5e80f091d253b } from '@consilioweb/payload-seo-analyzer/client'
+import { MetaDescriptionField as MetaDescriptionField_891aad6db67bdd9b62d5e80f091d253b } from '@consilioweb/payload-seo-analyzer/client'
+import { SerpPreviewField as SerpPreviewField_891aad6db67bdd9b62d5e80f091d253b } from '@consilioweb/payload-seo-analyzer/client'
 import { HorizontalRuleFeatureClient as HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { SlugField as SlugField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
@@ -54,12 +53,11 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#BoldFeatureClient": BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient": ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#LinkFeatureClient": LinkFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/plugin-seo/client#OverviewComponent": OverviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#MetaTitleComponent": MetaTitleComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#MetaImageComponent": MetaImageComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#MetaDescriptionComponent": MetaDescriptionComponent_a8a977ebc872c5d5ea7ee689724c0860,
-  "@payloadcms/plugin-seo/client#PreviewComponent": PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860,
   "@consilioweb/payload-seo-analyzer/client#SeoAnalyzerField": SeoAnalyzerField_891aad6db67bdd9b62d5e80f091d253b,
+  "@consilioweb/payload-seo-analyzer/client#OverviewField": OverviewField_891aad6db67bdd9b62d5e80f091d253b,
+  "@consilioweb/payload-seo-analyzer/client#MetaTitleField": MetaTitleField_891aad6db67bdd9b62d5e80f091d253b,
+  "@consilioweb/payload-seo-analyzer/client#MetaDescriptionField": MetaDescriptionField_891aad6db67bdd9b62d5e80f091d253b,
+  "@consilioweb/payload-seo-analyzer/client#SerpPreviewField": SerpPreviewField_891aad6db67bdd9b62d5e80f091d253b,
   "@payloadcms/richtext-lexical/client#HorizontalRuleFeatureClient": HorizontalRuleFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/next/client#SlugField": SlugField_2b8867833a34864a02ddf429b0728a40,

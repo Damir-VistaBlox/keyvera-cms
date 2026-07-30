@@ -75,6 +75,11 @@ export interface Config {
     users: User;
     navigation: Navigation;
     menu_item: MenuItem;
+    'seo-score-history': SeoScoreHistory;
+    'seo-settings': SeoSetting;
+    'seo-redirects': SeoRedirect;
+    'seo-performance': SeoPerformance;
+    'seo-logs': SeoLog;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -100,6 +105,11 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     navigation: NavigationSelect<false> | NavigationSelect<true>;
     menu_item: MenuItemSelect<false> | MenuItemSelect<true>;
+    'seo-score-history': SeoScoreHistorySelect<false> | SeoScoreHistorySelect<true>;
+    'seo-settings': SeoSettingsSelect<false> | SeoSettingsSelect<true>;
+    'seo-redirects': SeoRedirectsSelect<false> | SeoRedirectsSelect<true>;
+    'seo-performance': SeoPerformanceSelect<false> | SeoPerformanceSelect<true>;
+    'seo-logs': SeoLogsSelect<false> | SeoLogsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -301,16 +311,36 @@ export interface Page {
         blockType: 'pricingBlock';
       }
   )[];
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
   publishedAt?: string | null;
   slug?: string | null;
+  /**
+   * Les contenus piliers sont les pages les plus importantes du site et doivent être bien maillées.
+   */
+  isCornerstone?: boolean | null;
+  /**
+   * Mot-clé cible pour l'analyse SEO
+   */
+  focusKeyword?: string | null;
+  /**
+   * Mots-clés secondaires (en plus du mot-clé principal)
+   */
+  focusKeywords?:
+    | {
+        keyword: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Meta tags for search engines and social sharing.
+   */
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Image for social sharing (Facebook, Twitter, LinkedIn).
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -323,7 +353,7 @@ export interface Post {
   id: number;
   title: string;
   heroImage?: (number | null) | Media;
-  content: {
+  content?: {
     root: {
       type: string;
       children: {
@@ -337,17 +367,9 @@ export interface Post {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
   relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
-  meta?: {
-    title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:
@@ -357,6 +379,34 @@ export interface Post {
       }[]
     | null;
   slug?: string | null;
+  /**
+   * Les contenus piliers sont les pages les plus importantes du site et doivent être bien maillées.
+   */
+  isCornerstone?: boolean | null;
+  /**
+   * Mot-clé cible pour l'analyse SEO
+   */
+  focusKeyword?: string | null;
+  /**
+   * Mots-clés secondaires (en plus du mot-clé principal)
+   */
+  focusKeywords?:
+    | {
+        keyword: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Meta tags for search engines and social sharing.
+   */
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Image for social sharing (Facebook, Twitter, LinkedIn).
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -888,6 +938,251 @@ export interface MenuItem {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-score-history".
+ */
+export interface SeoScoreHistory {
+  id: number;
+  /**
+   * ID of the tracked page or post
+   */
+  documentId: string;
+  /**
+   * Collection slug (e.g. 'pages', 'posts')
+   */
+  collection: string;
+  /**
+   * SEO score at time of snapshot (0-100)
+   */
+  score: number;
+  /**
+   * Score level: poor | ok | good | excellent
+   */
+  level?: string | null;
+  /**
+   * Focus keyword at time of snapshot
+   */
+  focusKeyword?: string | null;
+  /**
+   * Word count at time of snapshot
+   */
+  wordCount?: number | null;
+  /**
+   * Summary: { pass: number, warning: number, fail: number }
+   */
+  checksSummary?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  /**
+   * Date of the snapshot
+   */
+  snapshotDate: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-settings".
+ */
+export interface SeoSetting {
+  id: number;
+  /**
+   * Utilise pour la verification de marque dans les titres
+   */
+  siteName?: string | null;
+  /**
+   * Pages exclues de l'audit SEO (ex: mentions-legales, cgv)
+   */
+  ignoredSlugs?:
+    | {
+        slug: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Groupes de regles a ignorer lors de l'analyse
+   */
+  disabledRules?:
+    | (
+        | 'title'
+        | 'meta-description'
+        | 'url'
+        | 'headings'
+        | 'content'
+        | 'images'
+        | 'linking'
+        | 'social'
+        | 'schema'
+        | 'readability'
+        | 'quality'
+        | 'secondary-keywords'
+        | 'cornerstone'
+        | 'freshness'
+        | 'technical'
+        | 'accessibility'
+        | 'ecommerce'
+      )[]
+    | null;
+  /**
+   * Laissez vide pour utiliser les valeurs par defaut
+   */
+  thresholds?: {
+    /**
+     * Defaut: 30
+     */
+    titleLengthMin?: number | null;
+    /**
+     * Defaut: 60
+     */
+    titleLengthMax?: number | null;
+    /**
+     * Defaut: 120
+     */
+    metaDescLengthMin?: number | null;
+    /**
+     * Defaut: 160
+     */
+    metaDescLengthMax?: number | null;
+    /**
+     * Defaut: 300
+     */
+    minWordsGeneric?: number | null;
+    /**
+     * Defaut: 800
+     */
+    minWordsPost?: number | null;
+    /**
+     * Defaut: 0.5
+     */
+    keywordDensityMin?: number | null;
+    /**
+     * Defaut: 3
+     */
+    keywordDensityMax?: number | null;
+    /**
+     * Defaut: 40
+     */
+    fleschScorePass?: number | null;
+    /**
+     * Defaut: 75
+     */
+    slugMaxLength?: number | null;
+  };
+  sitemap?: {
+    /**
+     * Pages a exclure de la generation du sitemap
+     */
+    excludedSlugs?:
+      | {
+          slug: string;
+          id?: string | null;
+        }[]
+      | null;
+    defaultChangefreq?: ('daily' | 'weekly' | 'monthly' | 'yearly') | null;
+    /**
+     * Valeur entre 0 et 1 (defaut: 0.5)
+     */
+    defaultPriority?: number | null;
+    /**
+     * Definir la priorite pour des patterns de slugs specifiques
+     */
+    priorityOverrides?:
+      | {
+          /**
+           * Pattern (ex: home, blog/*, services/*)
+           */
+          slugPattern: string;
+          priority: number;
+          changefreq?: ('daily' | 'weekly' | 'monthly' | 'yearly') | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Additional rules to include in robots.txt (one per line). Example: Disallow: /private/
+   */
+  robotsCustomRules?: string | null;
+  breadcrumb?: {
+    enabled?: boolean | null;
+    homeLabel?: string | null;
+    separator?: ('>' | '/' | '»' | '→') | null;
+    showOnHome?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-redirects".
+ */
+export interface SeoRedirect {
+  id: number;
+  from: string;
+  to: string;
+  type?: ('301' | '302') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-performance".
+ */
+export interface SeoPerformance {
+  id: number;
+  /**
+   * Page URL (relative or absolute)
+   */
+  url: string;
+  /**
+   * Search query that triggered the impression
+   */
+  query?: string | null;
+  /**
+   * Number of clicks from search results
+   */
+  clicks?: number | null;
+  /**
+   * Number of times this URL appeared in search results
+   */
+  impressions?: number | null;
+  /**
+   * Click-through rate (0-100)
+   */
+  ctr?: number | null;
+  /**
+   * Average position in search results
+   */
+  position?: number | null;
+  /**
+   * Date of the performance data
+   */
+  date: string;
+  /**
+   * Data source (csv, api, or manual)
+   */
+  source?: ('csv' | 'api' | 'manual') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-logs".
+ */
+export interface SeoLog {
+  id: number;
+  url: string;
+  type?: ('404' | 'redirect' | 'error') | null;
+  count?: number | null;
+  lastSeen?: string | null;
+  referrer?: string | null;
+  userAgent?: string | null;
+  ignored?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1109,6 +1404,26 @@ export interface PayloadLockedDocument {
         value: number | MenuItem;
       } | null)
     | ({
+        relationTo: 'seo-score-history';
+        value: number | SeoScoreHistory;
+      } | null)
+    | ({
+        relationTo: 'seo-settings';
+        value: number | SeoSetting;
+      } | null)
+    | ({
+        relationTo: 'seo-redirects';
+        value: number | SeoRedirect;
+      } | null)
+    | ({
+        relationTo: 'seo-performance';
+        value: number | SeoPerformance;
+      } | null)
+    | ({
+        relationTo: 'seo-logs';
+        value: number | SeoLog;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: number | Redirect;
       } | null)
@@ -1255,15 +1570,23 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  publishedAt?: T;
+  slug?: T;
+  isCornerstone?: T;
+  focusKeyword?: T;
+  focusKeywords?:
+    | T
+    | {
+        keyword?: T;
+        id?: T;
+      };
   meta?:
     | T
     | {
         title?: T;
-        image?: T;
         description?: T;
+        image?: T;
       };
-  publishedAt?: T;
-  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1362,13 +1685,6 @@ export interface PostsSelect<T extends boolean = true> {
   content?: T;
   relatedPosts?: T;
   categories?: T;
-  meta?:
-    | T
-    | {
-        title?: T;
-        image?: T;
-        description?: T;
-      };
   publishedAt?: T;
   authors?: T;
   populatedAuthors?:
@@ -1378,6 +1694,21 @@ export interface PostsSelect<T extends boolean = true> {
         name?: T;
       };
   slug?: T;
+  isCornerstone?: T;
+  focusKeyword?: T;
+  focusKeywords?:
+    | T
+    | {
+        keyword?: T;
+        id?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1545,6 +1876,119 @@ export interface MenuItemSelect<T extends boolean = true> {
   collapsed?: T;
   depth?: T;
   href?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-score-history_select".
+ */
+export interface SeoScoreHistorySelect<T extends boolean = true> {
+  documentId?: T;
+  collection?: T;
+  score?: T;
+  level?: T;
+  focusKeyword?: T;
+  wordCount?: T;
+  checksSummary?: T;
+  snapshotDate?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-settings_select".
+ */
+export interface SeoSettingsSelect<T extends boolean = true> {
+  siteName?: T;
+  ignoredSlugs?:
+    | T
+    | {
+        slug?: T;
+        id?: T;
+      };
+  disabledRules?: T;
+  thresholds?:
+    | T
+    | {
+        titleLengthMin?: T;
+        titleLengthMax?: T;
+        metaDescLengthMin?: T;
+        metaDescLengthMax?: T;
+        minWordsGeneric?: T;
+        minWordsPost?: T;
+        keywordDensityMin?: T;
+        keywordDensityMax?: T;
+        fleschScorePass?: T;
+        slugMaxLength?: T;
+      };
+  sitemap?:
+    | T
+    | {
+        excludedSlugs?:
+          | T
+          | {
+              slug?: T;
+              id?: T;
+            };
+        defaultChangefreq?: T;
+        defaultPriority?: T;
+        priorityOverrides?:
+          | T
+          | {
+              slugPattern?: T;
+              priority?: T;
+              changefreq?: T;
+              id?: T;
+            };
+      };
+  robotsCustomRules?: T;
+  breadcrumb?:
+    | T
+    | {
+        enabled?: T;
+        homeLabel?: T;
+        separator?: T;
+        showOnHome?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-redirects_select".
+ */
+export interface SeoRedirectsSelect<T extends boolean = true> {
+  from?: T;
+  to?: T;
+  type?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-performance_select".
+ */
+export interface SeoPerformanceSelect<T extends boolean = true> {
+  url?: T;
+  query?: T;
+  clicks?: T;
+  impressions?: T;
+  ctr?: T;
+  position?: T;
+  date?: T;
+  source?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "seo-logs_select".
+ */
+export interface SeoLogsSelect<T extends boolean = true> {
+  url?: T;
+  type?: T;
+  count?: T;
+  lastSeen?: T;
+  referrer?: T;
+  userAgent?: T;
+  ignored?: T;
   updatedAt?: T;
   createdAt?: T;
 }
