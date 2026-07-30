@@ -10,7 +10,9 @@ import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { generateMeta } from '@/utilities/generateMeta'
 import { ModelPricingTable } from '@/components/pricing/ModelPricingTable'
 import { SavingsCalculator } from '@/components/pricing/SavingsCalculator'
+import { StickyPricingCTA } from '@/components/pricing/StickyPricingCTA'
 import HowPricingWorks from '@/components/pricing/HowPricingWorks'
+import HomeFAQ from '@/components/Home/HomeFAQ'
 import PageClient from '../[slug]/page.client'
 
 export const dynamic = 'force-dynamic'
@@ -122,6 +124,12 @@ export default async function PricingPage() {
           pass-through — Keyvera does not add per-token markup.
         </p>
       </section>
+
+      {/* FAQ — answers common pricing questions */}
+      <HomeFAQ />
+
+      {/* Sticky CTA — mobile-only, fixed to bottom */}
+      <StickyPricingCTA />
     </>
   )
 }
