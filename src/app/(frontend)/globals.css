@@ -368,6 +368,11 @@ html[data-theme='light'] {
   opacity: initial;
 }
 
+/* Smooth scroll for in-page anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -376,4 +381,26 @@ html[data-theme='light'] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ── Featured On carousel animation ── */
+@keyframes featured-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-featured-scroll {
+  animation: featured-scroll 30s linear infinite;
+}
+
+.animate-featured-scroll:hover {
+  animation-play-state: paused;
 }

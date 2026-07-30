@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { cn } from '@/utilities/ui'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
-import React, { Suspense } from 'react'
+import React from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
 import { Footer } from '@/Footer/Component'
@@ -67,32 +67,6 @@ function StructuredData() {
   )
 }
 
-/* ── Skeleton fallback while Header/Footer are suspending ── */
-function HeaderFallback() {
-  return (
-    <header className="site-header">
-      <div className="container header-inner">
-        <div className="h-7 w-28 animate-pulse rounded bg-border/50" />
-        <div className="flex-1" />
-        <div className="hidden md:flex items-center gap-3">
-          <div className="h-9 w-16 animate-pulse rounded bg-border/50" />
-          <div className="h-9 w-24 animate-pulse rounded bg-border/50" />
-        </div>
-      </div>
-    </header>
-  )
-}
-
-function FooterFallback() {
-  return (
-    <footer className="site-footer">
-      <div className="container py-10">
-        <div className="h-6 w-32 animate-pulse rounded bg-white/10" />
-      </div>
-    </footer>
-  )
-}
-
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
 
@@ -118,13 +92,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               preview: isEnabled,
             }}
           />
-          <Suspense fallback={<HeaderFallback />}>
-            <Header />
-          </Suspense>
+          <Header />
           {children}
-          <Suspense fallback={<FooterFallback />}>
-            <Footer />
-          </Suspense>
+          <Footer />
         </Providers>
       </body>
     </html>
