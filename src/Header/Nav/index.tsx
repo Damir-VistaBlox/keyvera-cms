@@ -63,6 +63,40 @@ export async function HeaderNav({ items }: Props) {
 
         <li>
           <Link
+            href="https://docs.keyvera.cloud"
+            className="px-3 py-2 text-sm font-medium text-foreground/80 hover:text-primary transition-colors no-underline rounded-md"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-nav-link="/docs"
+          >
+            Docs
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="https://status.keyvera.cloud"
+            className="px-3 py-2 text-sm font-medium text-foreground/80 hover:text-primary transition-colors no-underline rounded-md"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-nav-link="/status"
+          >
+            Status
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="https://docs.keyvera.cloud/changelog"
+            className="px-3 py-2 text-sm font-medium text-foreground/80 hover:text-primary transition-colors no-underline rounded-md"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-nav-link="/changelog"
+          >
+            Changelog
+          </Link>
+        </li>
+
+        <li>
+          <Link
             href="/search"
             className="ml-1 inline-flex size-9 items-center justify-center rounded-md text-foreground/70 hover:text-primary hover:bg-accent transition-colors"
             aria-label="Search"

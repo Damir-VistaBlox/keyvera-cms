@@ -24,18 +24,21 @@ export const generateMeta = async (args: {
 
   const ogImage = getImageURL(doc?.meta?.image)
 
-  const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | KEYVERA'
-    : 'KEYVERA — One API for Leading AI Models'
+  const baseTitle = doc?.meta?.title || 'KEYVERA — One API for Leading AI Models'
 
   return {
     description: doc?.meta?.description || 'Access leading AI models through one unified API.',
     openGraph: mergeOpenGraph({
       description: doc?.meta?.description || '',
       images: ogImage ? [{ url: ogImage }] : undefined,
-      title,
+      title: baseTitle,
       url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
     }),
-    title,
+    // When no CMS meta title is set we fall back to the branded default — use absolute
+    // to prevent Next.js from applying the parent template (%s | KEYVERA) on top of it,
+    // which would produce "KEYVERA — One API for Leading AI Models | KEYVERA".
+    // Pages with explicit CMS meta titles (e.g. "Simple, transparent pricing") still
+    // get the brand suffix appended by the template.
+    title: doc?.meta?.title ? baseTitle : { absolute: baseTitle },
   }
 }

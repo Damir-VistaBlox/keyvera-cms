@@ -44,10 +44,18 @@ export default function HowPricingWorks() {
         <p className="text-sm font-medium text-foreground">Real-world example</p>
         <p className="mt-2 text-[var(--text-body)]">
           You top up with <strong className="text-foreground">€25</strong>. Your balance shows{' '}
-          <strong className="text-foreground">$50</strong>. You send 100,000 tokens through Claude
-          Sonnet 5 at $1.03/1M output tokens. You pay <strong className="text-foreground">$0.10</strong>.
-          At OpenAI's retail rate of $3.13/1M for Claude 3.7 Sonnet, the same request would cost{' '}
-          <strong className="text-foreground">$0.31</strong>. You just saved <strong className="text-primary">68%</strong>.
+          <strong className="text-foreground">$50</strong> in USD credit. You send 100,000 output
+          tokens through Claude Sonnet 5 at{' '}
+          <strong className="text-foreground">$1.03/1M</strong> via Keyvera. You pay{' '}
+          <strong className="text-foreground">$0.10</strong>.
+          The same 100,000 output tokens through Claude Sonnet 5 at Anthropic&apos;s official retail
+          rate of <strong className="text-foreground">$2.60/1M</strong> would cost{' '}
+          <strong className="text-foreground">$0.26</strong>. You save{' '}
+          <strong className="text-primary">60%</strong> on the exact same model.
+        </p>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Keyvera prices are ≤50% of each model&apos;s official retail rate. The 2× top-up multiplier
+          includes the EUR→USD exchange spread baked in — your deposit is converted at a flat 2× rate.
         </p>
       </div>
     </div>

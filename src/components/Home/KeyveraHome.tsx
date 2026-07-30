@@ -12,17 +12,17 @@ import HomeFAQ from './HomeFAQ'
    ================================================================= */
 
 const providers = [
-  { name: 'OpenAI', icon: '/icons/openai.svg', blurb: "Access models at wholesale rates — far below typical retail API pricing." },
-  { name: 'Anthropic', icon: '/icons/claude-color.svg', blurb: "Access models at wholesale rates — far below typical retail API pricing." },
-  { name: 'Google', icon: '/icons/google-color.svg', blurb: "Access models at wholesale rates — far below typical retail API pricing." },
-  { name: 'Mistral', icon: '/icons/mistral-color.svg', blurb: "Access models at wholesale rates — far below typical retail API pricing." },
-  { name: 'Meta', icon: '/icons/meta-color.svg', blurb: "Access models at wholesale rates — far below typical retail API pricing." },
-  { name: 'DeepSeek', icon: '/icons/deepseek-color.svg', blurb: "Access models at wholesale rates — far below typical retail API pricing." },
+  { name: 'OpenAI', icon: '/icons/openai.svg', blurb: "Run GPT-5.6, o3, and O4-mini through one endpoint — no separate OpenAI billing required." },
+  { name: 'Anthropic', icon: '/icons/claude-color.svg', blurb: "Access Claude Sonnet 5, Opus 4.8, and Haiku 4.5 with zero code changes via the OpenAI-compatible API." },
+  { name: 'Google', icon: '/icons/google-color.svg', blurb: "Gemini Pro, Flash, and Ultra models at 50% off retail, with the same request format you already use." },
+  { name: 'Mistral', icon: '/icons/mistral-color.svg', blurb: "Mistral Large and Small models at wholesale rates — ideal for European data residency workloads." },
+  { name: 'Meta', icon: '/icons/meta-color.svg', blurb: "Llama 4 and Llama 3.3 models with no per-token markup, served from EU infrastructure." },
+  { name: 'DeepSeek', icon: '/icons/deepseek-color.svg', blurb: "DeepSeek V3.2 and R1 reasoning models at the lowest available rates through a unified API." },
 ]
 
 const heroStats = [
   { value: '100T+', label: 'Tokens served' },
-  { value: '10M+', label: 'Developers worldwide' },
+  { value: '5K+', label: 'Active developers' },
   { value: '200+', label: 'Models available' },
   { value: '99.9%', label: 'Uptime SLA' },
 ]
@@ -202,6 +202,12 @@ export default async function KeyveraHome() {
                 </Link>
               </div>
             ))}
+          </div>
+          <div className="mx-auto mb-10 max-w-2xl rounded-lg border border-primary/20 bg-primary/[0.04] px-5 py-4 text-center">
+            <p className="text-sm text-[var(--text-body)]">
+              <strong className="text-foreground">2× top-up:</strong> Deposit in EUR, get double in USD credit.
+              €25 → $50. €50 → $100. €100 → $200. One balance works across all models and providers.
+            </p>
           </div>
           <div className="text-center">
             <Button asChild size="lg">

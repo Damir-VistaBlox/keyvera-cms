@@ -100,6 +100,23 @@ export default async function PricingPage() {
 
         <ModelPricingTable channels={channels} />
 
+        {/* Service level info */}
+        <section className="container mt-14 border-t border-border pt-12">
+          <h3 className="text-center text-lg font-semibold text-foreground mb-8">Service levels & limits</h3>
+          <div className="mx-auto grid max-w-3xl gap-4 md:grid-cols-3">
+            {[
+              { title: 'Rate limits', body: 'Starter: 60 req/min per key. Pro: 600 req/min per key. Enterprise: custom limits available — contact sales.' },
+              { title: 'Latency', body: 'Median < 250ms for cached models, < 500ms p95. All traffic routed through AWS Frankfurt (eu-central-1).' },
+              { title: 'Throughput', body: 'No per-day token caps on any plan. Pro and Enterprise include model failover to keep requests flowing during upstream outages.' },
+            ].map((item) => (
+              <div key={item.title} className="rounded-lg border border-border bg-card p-5">
+                <h4 className="text-sm font-semibold text-foreground mb-1.5">{item.title}</h4>
+                <p className="text-sm text-[var(--text-body)]">{item.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <p className="mt-12 text-center text-xs text-muted-foreground">
           Prices are pulled live from our upstream provider and updated hourly. All prices are
           pass-through — Keyvera does not add per-token markup.

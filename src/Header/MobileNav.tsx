@@ -83,6 +83,33 @@ export function MobileNav({ items }: Props) {
               )
             })}
             <Link
+              href="https://docs.keyvera.cloud"
+              className="flex items-center px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-colors no-underline"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={close}
+            >
+              Docs
+            </Link>
+            <Link
+              href="https://status.keyvera.cloud"
+              className="flex items-center px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-colors no-underline"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={close}
+            >
+              Status
+            </Link>
+            <Link
+              href="https://docs.keyvera.cloud/changelog"
+              className="flex items-center px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-colors no-underline"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={close}
+            >
+              Changelog
+            </Link>
+            <Link
               href="/search"
               className="flex items-center px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-accent transition-colors no-underline"
               onClick={close}

@@ -208,6 +208,10 @@ export function SavingsCalculator({
                 <p className="mt-0.5 text-xs text-muted-foreground">
                   Keyvera wholesale pricing is 50% of retail. All models, no exceptions.
                 </p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Retail estimate is the model&apos;s official API price per 1M tokens — typically double the Keyvera rate.
+                  Actual retail prices may vary by provider tier and commitment level.
+                </p>
               </div>
             </div>
           ) : (
