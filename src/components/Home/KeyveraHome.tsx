@@ -76,10 +76,8 @@ export default async function KeyveraHome() {
     <div className="flex flex-col">
       {/* ═══════ HERO with Convergence Node ═══════ */}
       <section id="top" aria-label="Introduction" className="relative overflow-hidden border-b border-border" data-theme="dark">
-        <div className="pointer-events-none absolute inset-0 opacity-40" aria-hidden="true"
-          style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,104,208,0.35), transparent), linear-gradient(180deg, #000030 0%, #000020 100%)' }} />
-        <div className="pointer-events-none absolute inset-0 opacity-[0.07]" aria-hidden="true"
-          style={{ backgroundImage: 'linear-gradient(rgba(0,144,253,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,144,253,0.5) 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
+        <div className="pointer-events-none absolute inset-0 opacity-40 hero-atmosphere-glow" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.07] hero-atmosphere-grid" aria-hidden="true" />
 
         {/* Convergence Node motif */}
         <ConvergenceNode />

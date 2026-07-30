@@ -404,3 +404,58 @@ html {
 .animate-featured-scroll:hover {
   animation-play-state: paused;
 }
+
+/* ── Convergence Node hero animation (pure CSS, no GSAP) ── */
+@keyframes draw-line {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes node-breathe {
+  0%,
+  100% {
+    opacity: 0.6;
+    r: 4;
+  }
+  50% {
+    opacity: 1;
+    r: 7;
+  }
+}
+
+.convergence-line line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-line 1.2s ease-out forwards;
+  animation-delay: inherit;
+}
+
+.node-pulse circle:first-child {
+  animation: node-breathe 8s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+/* ── Hero atmosphere (replaces inline styles) ── */
+.hero-atmosphere-glow {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 104, 208, 0.35), transparent),
+    linear-gradient(180deg, #000030 0%, #000020 100%);
+}
+
+.hero-atmosphere-grid {
+  background-image: linear-gradient(rgba(0, 144, 253, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 144, 253, 0.5) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .convergence-line line,
+  .node-pulse circle:first-child {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
