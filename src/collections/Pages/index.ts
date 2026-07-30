@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import { seoFields } from '@consilioweb/payload-seo-analyzer'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
@@ -70,10 +69,6 @@ export const Pages: CollectionConfig = {
             },
           ],
           label: 'Content',
-        },
-        {
-          fields: seoFields(),
-          label: 'SEO',
         },
       ],
     },

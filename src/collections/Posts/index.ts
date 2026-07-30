@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload'
-import { seoFields } from '@consilioweb/payload-seo-analyzer'
 
 import {
   BlocksFeature,
@@ -102,10 +101,6 @@ export const Posts: CollectionConfig = {
             },
           ],
           label: 'Meta',
-        },
-        {
-          fields: seoFields(),
-          label: 'SEO',
         },
       ],
     },
