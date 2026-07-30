@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/ui'
 import { HeroCodeBlock } from './HeroCodeBlock'
 import { ConvergenceNode } from './ConvergenceNode'
+import { HeroAnimation } from './HeroAnimation'
 import FeaturedOn from './FeaturedOn'
 import HomeFAQ from './HomeFAQ'
 
@@ -60,9 +61,9 @@ function SectionHeading({ id, title, subtitle }: { id?: string; title: string; s
   )
 }
 
-function Card({ children, className }: { children: React.ReactNode; className?: string }) {
+function Card({ children, className, ...rest }: { children: React.ReactNode; className?: string; [key: string]: any }) {
   return (
-    <div className={cn('rounded-xl border border-border bg-card p-6 shadow-sm transition-colors hover:border-primary/40', className)}>
+    <div className={cn('rounded-xl border border-border bg-card p-6 shadow-sm transition-colors hover:border-primary/40', className)} {...rest}>
       {children}
     </div>
   )
@@ -103,7 +104,7 @@ export default async function KeyveraHome() {
 
             <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {heroStats.map((s) => (
-                <div key={s.label} className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-center backdrop-blur-sm">
+                <div key={s.label} className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-center backdrop-blur-sm" data-reveal-card>
                   <div className="text-xl font-bold text-white sm:text-2xl">{s.value}</div>
                   <div className="mt-1 text-[0.7rem] font-medium uppercase tracking-wide text-white/50">{s.label}</div>
                 </div>
@@ -118,6 +119,9 @@ export default async function KeyveraHome() {
       {/* ═══════ FEATURED ON ═══════ */}
       <FeaturedOn />
 
+      {/* GSAP animations — line draw, node pulse, scroll reveals */}
+      <HeroAnimation />
+
       {/* ═══════ HOW IT WORKS ═══════ */}
       <section id="how-it-works" className="section-pad border-b border-border py-16 md:py-24" aria-labelledby="how-heading">
         <div className="container">
@@ -125,7 +129,7 @@ export default async function KeyveraHome() {
             subtitle="Replace fragmented provider integrations with a single, consistent workflow designed to make model access easier to operate and scale." />
           <ol className="grid gap-4 md:grid-cols-3">
             {processSteps.map((step) => (
-              <li key={step.n}>
+              <li key={step.n} data-reveal-card>
                 <Card className="h-full">
                   <span className="text-xs font-semibold tracking-[0.12em] text-primary">{step.n}</span>
                   <h3 className="mt-3 text-lg font-semibold text-foreground">{step.title}</h3>
@@ -144,7 +148,7 @@ export default async function KeyveraHome() {
             subtitle="Choose a primary model, configure routing behavior, and switch providers without rewriting your application's integration layer." />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {providers.map((p) => (
-              <Card key={p.name}>
+              <Card key={p.name} className="" data-reveal-card>
                 <div className="flex items-center gap-3 mb-2">
                   <img src={p.icon} alt="" className="h-6 w-6 object-contain shrink-0" aria-hidden="true" />
                   <h3 className="text-base font-semibold text-foreground">{p.name}</h3>
@@ -167,7 +171,8 @@ export default async function KeyveraHome() {
           <div className="grid gap-4 md:grid-cols-6">
             {features.map((f) => (
               <Card key={f.title}
-                className={cn('md:col-span-2', f.wide && 'md:col-span-3', f.full && 'md:col-span-6')}>
+                className={cn('md:col-span-2', f.wide && 'md:col-span-3', f.full && 'md:col-span-6')}
+                data-reveal-card>
                 <h3 className="text-base font-semibold text-foreground">{f.title}</h3>
                 <p className="mt-2 text-sm text-[var(--text-body)]">{f.body}</p>
               </Card>
@@ -187,7 +192,8 @@ export default async function KeyveraHome() {
                 className={cn(
                   'relative flex flex-col rounded-xl border bg-card p-6 shadow-sm',
                   tier.highlight ? 'border-primary shadow-md ring-1 ring-primary/20 md:-mt-2 md:pb-8 md:pt-8' : 'border-border hover:border-primary/40',
-                )}>
+                )}
+                data-reveal-card>
                 {tier.highlight && <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-0.5 text-xs font-semibold text-primary-foreground">Recommended</span>}
                 <h3 className="text-lg font-semibold text-foreground">{tier.name}</h3>
                 <div className="mt-2">

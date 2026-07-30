@@ -405,39 +405,10 @@ html {
   animation-play-state: paused;
 }
 
-/* ── Convergence Node hero animation (pure CSS, no GSAP) ── */
-@keyframes draw-line {
-  0% {
-    stroke-dashoffset: 1000;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes node-breathe {
-  0%,
-  100% {
-    opacity: 0.6;
-    r: 4;
-  }
-  50% {
-    opacity: 1;
-    r: 7;
-  }
-}
-
+/* ── Convergence Node — SVGs render static; GSAP animates on mount ── */
 .convergence-line line {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
-  animation: draw-line 1.2s ease-out forwards;
-  animation-delay: inherit;
-}
-
-.node-pulse circle:first-child {
-  animation: node-breathe 8s ease-in-out infinite;
-  transform-origin: center;
-  transform-box: fill-box;
 }
 
 /* ── Hero atmosphere (replaces inline styles) ── */
@@ -453,9 +424,7 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .convergence-line line,
-  .node-pulse circle:first-child {
-    animation: none;
+  .convergence-line line {
     stroke-dashoffset: 0;
   }
 }
