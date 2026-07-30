@@ -29,33 +29,18 @@ export const Pages: CollectionConfig = {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) =>
-        generatePreviewPath({
-          slug: data?.slug,
-          collection: 'pages',
-          req,
-        }),
+        generatePreviewPath({ slug: data?.slug, collection: 'pages', req }),
     },
     preview: (data, { req }) =>
-      generatePreviewPath({
-        slug: data?.slug as string,
-        collection: 'pages',
-        req,
-      }),
+      generatePreviewPath({ slug: data?.slug as string, collection: 'pages', req }),
     useAsTitle: 'title',
   },
   fields: [
-    {
-      name: 'title',
-      type: 'text',
-      required: true,
-    },
+    { name: 'title', type: 'text', required: true },
     {
       type: 'tabs',
       tabs: [
-        {
-          fields: [hero],
-          label: 'Hero',
-        },
+        { fields: [hero], label: 'Hero' },
         {
           fields: [
             {
@@ -63,26 +48,24 @@ export const Pages: CollectionConfig = {
               type: 'blocks',
               blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, PricingBlock],
               required: true,
-              admin: {
-                initCollapsed: true,
-              },
+              admin: { initCollapsed: true },
             },
           ],
           label: 'Content',
         },
+        {
+          name: 'meta',
+          label: 'SEO',
+          fields: [
+            { name: 'title', type: 'text', label: 'Meta Title' },
+            { name: 'description', type: 'textarea', label: 'Meta Description' },
+            { name: 'image', type: 'upload', relationTo: 'media', label: 'Meta Image' },
+          ],
+        },
       ],
     },
-    {
-      name: 'publishedAt',
-      type: 'date',
-      admin: {
-        position: 'sidebar',
-      },
-    },
-    {
-      name: 'slug',
-      type: 'text',
-    },
+    { name: 'publishedAt', type: 'date', admin: { position: 'sidebar' } },
+    { name: 'slug', type: 'text' },
   ],
   hooks: {
     afterChange: [revalidatePage],
@@ -90,10 +73,7 @@ export const Pages: CollectionConfig = {
     afterDelete: [revalidateDelete],
   },
   versions: {
-    drafts: {
-      autosave: { interval: 100 },
-      schedulePublish: true,
-    },
+    drafts: { autosave: { interval: 100 }, schedulePublish: true },
     maxPerDoc: 50,
   },
 }

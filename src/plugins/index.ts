@@ -32,6 +32,7 @@ export const plugins: Plugin[] = [
   seoAnalyzerPlugin({
     collections: ['pages', 'posts'],
     siteUrl: getServerSideURL(),
+    autoCreateMetaFields: false,
   }),
 
   /* ── Vercel Blob — conditional ── */
