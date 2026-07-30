@@ -4,6 +4,7 @@ import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { navigationPlugin } from '@spon/payload-navigation'
+import { seoAnalyzerPlugin } from '@consilioweb/payload-seo-analyzer'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
@@ -38,6 +39,12 @@ export const plugins: Plugin[] = [
         return '#'
       }
     },
+  }),
+
+  /* ── SEO Analyzer — 50+ on-page checks, admin dashboard, offline-first ── */
+  seoAnalyzerPlugin({
+    collections: ['pages', 'posts'],
+    siteUrl: getServerSideURL(),
   }),
 
   /* ── Vercel Blob — conditional ── */
