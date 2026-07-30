@@ -2,7 +2,7 @@ import type { Theme } from './types'
 
 export const themeLocalStorageKey = 'keyvera-theme'
 
-/** Match live keyvera.cloud: dark is the brand-default marketing experience */
+/** Light is the default marketing experience */
 export const defaultTheme = 'light'
 
 export const getImplicitPreference = (): Theme | null => {

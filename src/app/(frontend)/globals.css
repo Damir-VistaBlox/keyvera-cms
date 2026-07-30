@@ -360,17 +360,15 @@ html[data-theme='light'],
 }
 
 html {
+  scroll-behavior: smooth;
+  /* Start hidden until InitTheme sets data-theme (avoids flash of wrong theme) */
   opacity: 0;
 }
 
 html[data-theme='dark'],
-html[data-theme='light'] {
+html[data-theme='light'],
+html :where([data-theme]) {
   opacity: initial;
-}
-
-/* Smooth scroll for in-page anchor links */
-html {
-  scroll-behavior: smooth;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -2,5 +2,5 @@ export type Theme = 'dark' | 'light'
 
 export const themeLocalStorageKey = 'keyvera-theme'
 
-/** Match live keyvera.cloud: dark is brand default */
+/** Light is the default marketing experience */
 export const defaultTheme = 'light'
