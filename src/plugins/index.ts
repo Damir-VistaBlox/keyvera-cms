@@ -3,7 +3,6 @@ import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { searchPlugin } from '@payloadcms/plugin-search'
 import { navigationPlugin } from '@spon/payload-navigation'
-import { seoAnalyzerPlugin } from '@consilioweb/payload-seo-analyzer'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
@@ -38,12 +37,6 @@ export const plugins: Plugin[] = [
         return '#'
       }
     },
-  }),
-
-  /* ── SEO Analyzer — 50+ on-page checks, dashboard, coexists with plugin-seo ── */
-  seoAnalyzerPlugin({
-    collections: ['pages', 'posts'],
-    siteUrl: getServerSideURL(),
   }),
 
   /* ── SEO Plugin — meta fields for pages/posts ── */
