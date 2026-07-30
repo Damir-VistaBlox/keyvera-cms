@@ -14,6 +14,10 @@ import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { populateAuthors } from './hooks/populateAuthors'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
 
+import {
+  MetaDescriptionField, MetaImageField, MetaTitleField, OverviewField, PreviewField,
+} from '@payloadcms/plugin-seo/fields'
+
 export const Posts: CollectionConfig = {
   slug: 'posts',
   access: { create: authenticated, delete: authenticated, read: authenticatedOrPublished, update: authenticated },
@@ -32,14 +36,15 @@ export const Posts: CollectionConfig = {
         {
           fields: [
             { name: 'heroImage', type: 'upload', relationTo: 'media' },
-            { name: 'content', type: 'richText', editor: lexicalEditor({
-              features: ({ rootFeatures }) => [
+            {
+              name: 'content', type: 'richText',
+              editor: lexicalEditor({ features: ({ rootFeatures }) => [
                 ...rootFeatures,
                 HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
                 BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
                 FixedToolbarFeature(), InlineToolbarFeature(), HorizontalRuleFeature(),
-              ],
-            })},
+              ]}),
+            },
           ],
           label: 'Content',
         },
@@ -55,9 +60,11 @@ export const Posts: CollectionConfig = {
         {
           name: 'meta', label: 'SEO',
           fields: [
-            { name: 'title', type: 'text', label: 'Meta Title' },
-            { name: 'description', type: 'textarea', label: 'Meta Description' },
-            { name: 'image', type: 'upload', relationTo: 'media', label: 'Meta Image' },
+            OverviewField({ titlePath: 'meta.title', descriptionPath: 'meta.description', imagePath: 'meta.image' }),
+            MetaTitleField({ hasGenerateFn: true }),
+            MetaImageField({ relationTo: 'media' }),
+            MetaDescriptionField({}),
+            PreviewField({ hasGenerateFn: true, titlePath: 'meta.title', descriptionPath: 'meta.description' }),
           ],
         },
       ],

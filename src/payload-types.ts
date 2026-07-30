@@ -311,6 +311,14 @@ export interface Page {
         blockType: 'pricingBlock';
       }
   )[];
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
   publishedAt?: string | null;
   slug?: string | null;
   /**
@@ -330,17 +338,6 @@ export interface Page {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Meta tags for search engines and social sharing.
-   */
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Image for social sharing (Facebook, Twitter, LinkedIn).
-     */
-    image?: (number | null) | Media;
-  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -370,6 +367,14 @@ export interface Post {
   } | null;
   relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
   populatedAuthors?:
@@ -396,17 +401,6 @@ export interface Post {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Meta tags for search engines and social sharing.
-   */
-  meta?: {
-    title?: string | null;
-    description?: string | null;
-    /**
-     * Image for social sharing (Facebook, Twitter, LinkedIn).
-     */
-    image?: (number | null) | Media;
-  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -1570,6 +1564,13 @@ export interface PagesSelect<T extends boolean = true> {
               blockName?: T;
             };
       };
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
   publishedAt?: T;
   slug?: T;
   isCornerstone?: T;
@@ -1579,13 +1580,6 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         keyword?: T;
         id?: T;
-      };
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -1685,6 +1679,13 @@ export interface PostsSelect<T extends boolean = true> {
   content?: T;
   relatedPosts?: T;
   categories?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        image?: T;
+        description?: T;
+      };
   publishedAt?: T;
   authors?: T;
   populatedAuthors?:
@@ -1701,13 +1702,6 @@ export interface PostsSelect<T extends boolean = true> {
     | {
         keyword?: T;
         id?: T;
-      };
-  meta?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -7,11 +7,23 @@ import { seoAnalyzerPlugin } from '@consilioweb/payload-seo-analyzer'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
+import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
+import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
+import { seoPlugin } from '@payloadcms/plugin-seo'
+
+const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
+  return doc?.title ? `${doc.title} | KEYVERA` : 'KEYVERA — One API for Leading AI Models'
+}
+
+const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
+  const url = getServerSideURL()
+  return doc?.slug ? `${url}/${doc.slug}` : url
+}
 
 export const plugins: Plugin[] = [
   /* ── Navigation — drag-and-drop menu builder ── */
@@ -28,12 +40,14 @@ export const plugins: Plugin[] = [
     },
   }),
 
-  /* ── SEO Analyzer — 50+ on-page checks, replaces @payloadcms/plugin-seo ── */
+  /* ── SEO Analyzer — 50+ on-page checks, dashboard, coexists with plugin-seo ── */
   seoAnalyzerPlugin({
     collections: ['pages', 'posts'],
     siteUrl: getServerSideURL(),
-    autoCreateMetaFields: false,
   }),
+
+  /* ── SEO Plugin — meta fields for pages/posts ── */
+  seoPlugin({ generateTitle, generateURL }),
 
   /* ── Vercel Blob — conditional ── */
   ...(process.env.BLOB_READ_WRITE_TOKEN

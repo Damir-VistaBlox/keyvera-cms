@@ -13,26 +13,22 @@ import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+  PreviewField,
+} from '@payloadcms/plugin-seo/fields'
+
 export const Pages: CollectionConfig = {
   slug: 'pages',
-  access: {
-    create: authenticated,
-    delete: authenticated,
-    read: authenticatedOrPublished,
-    update: authenticated,
-  },
-  defaultPopulate: {
-    title: true,
-    slug: true,
-  },
+  access: { create: authenticated, delete: authenticated, read: authenticatedOrPublished, update: authenticated },
+  defaultPopulate: { title: true, slug: true },
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
-    livePreview: {
-      url: ({ data, req }) =>
-        generatePreviewPath({ slug: data?.slug, collection: 'pages', req }),
-    },
-    preview: (data, { req }) =>
-      generatePreviewPath({ slug: data?.slug as string, collection: 'pages', req }),
+    livePreview: { url: ({ data, req }) => generatePreviewPath({ slug: data?.slug, collection: 'pages', req }) },
+    preview: (data, { req }) => generatePreviewPath({ slug: data?.slug as string, collection: 'pages', req }),
     useAsTitle: 'title',
   },
   fields: [
@@ -42,24 +38,24 @@ export const Pages: CollectionConfig = {
       tabs: [
         { fields: [hero], label: 'Hero' },
         {
-          fields: [
-            {
-              name: 'layout',
-              type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, PricingBlock],
-              required: true,
-              admin: { initCollapsed: true },
-            },
-          ],
+          fields: [{
+            name: 'layout',
+            type: 'blocks',
+            blocks: [CallToAction, Content, MediaBlock, Archive, FormBlock, PricingBlock],
+            required: true,
+            admin: { initCollapsed: true },
+          }],
           label: 'Content',
         },
         {
           name: 'meta',
           label: 'SEO',
           fields: [
-            { name: 'title', type: 'text', label: 'Meta Title' },
-            { name: 'description', type: 'textarea', label: 'Meta Description' },
-            { name: 'image', type: 'upload', relationTo: 'media', label: 'Meta Image' },
+            OverviewField({ titlePath: 'meta.title', descriptionPath: 'meta.description', imagePath: 'meta.image' }),
+            MetaTitleField({ hasGenerateFn: true }),
+            MetaImageField({ relationTo: 'media' }),
+            MetaDescriptionField({}),
+            PreviewField({ hasGenerateFn: true, titlePath: 'meta.title', descriptionPath: 'meta.description' }),
           ],
         },
       ],
@@ -67,13 +63,6 @@ export const Pages: CollectionConfig = {
     { name: 'publishedAt', type: 'date', admin: { position: 'sidebar' } },
     { name: 'slug', type: 'text' },
   ],
-  hooks: {
-    afterChange: [revalidatePage],
-    beforeChange: [populatePublishedAt],
-    afterDelete: [revalidateDelete],
-  },
-  versions: {
-    drafts: { autosave: { interval: 100 }, schedulePublish: true },
-    maxPerDoc: 50,
-  },
+  hooks: { afterChange: [revalidatePage], beforeChange: [populatePublishedAt], afterDelete: [revalidateDelete] },
+  versions: { drafts: { autosave: { interval: 100 }, schedulePublish: true }, maxPerDoc: 50 },
 }
