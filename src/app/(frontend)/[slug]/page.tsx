@@ -12,6 +12,7 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import KeyveraHome from '@/components/Home/KeyveraHome'
+import { ConvergenceNodeInline } from '@/components/Home/ConvergenceNode'
 import { homeStatic } from '@/endpoints/seed/home-static'
 
 export const dynamic = 'force-dynamic'
@@ -60,12 +61,22 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { hero, layout } = page
 
   return (
-    <article className="pt-8 pb-24 md:pt-12">
+    <article className="pb-24">
       <PageClient />
       <PayloadRedirects disableNotFound url={url} />
       {draft && <LivePreviewListener />}
-      <RenderHero {...hero} />
-      <RenderBlocks blocks={layout} />
+      {decodedSlug === 'about' ? (
+        <div className="relative -mt-2" data-theme="dark">
+          <div className="absolute inset-0 bg-[#000020]" aria-hidden="true" />
+          <ConvergenceNodeInline />
+          <RenderHero {...hero} />
+        </div>
+      ) : (
+        <RenderHero {...hero} />
+      )}
+      <div className="pt-8 md:pt-12">
+        <RenderBlocks blocks={layout} />
+      </div>
     </article>
   )
 }
