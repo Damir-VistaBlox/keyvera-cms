@@ -16,7 +16,9 @@ import { getServerSideURL } from '@/utilities/getURL'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | KEYVERA` : 'KEYVERA — One API for Leading AI Models'
+  // Prefer CMS meta_title, fall back to page title, then site default.
+  // Do NOT append " | KEYVERA" here — the Next.js layout template (%s | KEYVERA) handles it.
+  return doc?.meta?.title || doc?.title || 'KEYVERA — One API for Leading AI Models'
 }
 
 const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
